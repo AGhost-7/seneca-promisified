@@ -25,9 +25,9 @@ var completesPromise = function completesPromise(resolve, reject) {
  * Meant to wrap the global seneca instance.
  */
 
-var SenecaWrapper = function () {
-	function SenecaWrapper(seneca) {
-		_classCallCheck(this, SenecaWrapper);
+var SenecaPromisified = function () {
+	function SenecaPromisified(seneca) {
+		_classCallCheck(this, SenecaPromisified);
 
 		Object.defineProperties(this, {
 			_seneca: {
@@ -44,7 +44,7 @@ var SenecaWrapper = function () {
   */
 
 
-	_createClass(SenecaWrapper, [{
+	_createClass(SenecaPromisified, [{
 		key: 'act',
 		value: function act() {
 			var _this = this;
@@ -64,9 +64,9 @@ var SenecaWrapper = function () {
    */
 
 	}, {
-		key: '_instantiate',
-		value: function _instantiate(seneca) {
-			return new SenecaWrapper(seneca);
+		key: 'create',
+		value: function create(seneca) {
+			return new SenecaPromisified(seneca);
 		}
 	}, {
 		key: '_handleResult',
@@ -93,10 +93,10 @@ var SenecaWrapper = function () {
 			var handler = arguments.length - 1 > 1 ? arguments.length <= 2 ? undefined : arguments[2] : arguments.length <= 1 ? undefined : arguments[1];
 
 			var handleResult = this._handleResult;
-			var instantiate = this._instantiate;
+			var create = this.create;
 			var wrappedHandler = function wrappedHandler(args, done) {
 				var seneca = this;
-				var wrapped = instantiate(seneca);
+				var wrapped = create(seneca);
 				var res = handler.call(wrapped, args, wrapped);
 				handleResult(res, done);
 			};
@@ -137,10 +137,10 @@ var SenecaWrapper = function () {
 			}
 
 			var plugin = typeof args[0] === 'string' ? args[1] : args[0];
-			var instantiate = this._instantiate;
+			var create = this.create;
 			var loader = function loader() {
 				var seneca = this;
-				var wrapped = instantiate(seneca);
+				var wrapped = create(seneca);
 				plugin.call(wrapped, wrapped);
 			};
 
@@ -152,14 +152,14 @@ var SenecaWrapper = function () {
 		}
 
 		/**
-   * @returns {SenecaWrapper}
+   * @returns {SenecaPromisified}
    */
 
 	}, {
 		key: 'delegate',
 		value: function delegate(opts) {
 			var del = this._seneca.delegate(opts);
-			return this._instantiate(del);
+			return this.create(del);
 		}
 
 		/**
@@ -220,7 +220,7 @@ var SenecaWrapper = function () {
 		}
 	}]);
 
-	return SenecaWrapper;
+	return SenecaPromisified;
 }();
 
 /**
@@ -230,8 +230,8 @@ var SenecaWrapper = function () {
  */
 
 
-var SenecaHandlerWrapper = function (_SenecaWrapper) {
-	_inherits(SenecaHandlerWrapper, _SenecaWrapper);
+var SenecaHandlerWrapper = function (_SenecaPromisified) {
+	_inherits(SenecaHandlerWrapper, _SenecaPromisified);
 
 	function SenecaHandlerWrapper(seneca) {
 		_classCallCheck(this, SenecaHandlerWrapper);
@@ -256,9 +256,9 @@ var SenecaHandlerWrapper = function (_SenecaWrapper) {
 	}]);
 
 	return SenecaHandlerWrapper;
-}(SenecaWrapper);
+}(SenecaPromisified);
 
-module.exports = function (seneca) {
-	return new SenecaWrapper(seneca);
+SenecaPromisified.create = function (seneca) {
+	return new SenecaPromisified(seneca);
 };
-module.exports.SenecaWrapper = SenecaWrapper;
+module.exports = SenecaPromisified;

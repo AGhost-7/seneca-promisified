@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 
 import senecaModule from 'seneca';
-import promisifySeneca from './index';
+import SenecaPromisified from './index';
 import assert from 'assert';
 import R from 'ramda';
 
@@ -17,8 +17,7 @@ const oldSeneca = senecaModule({
 	}
 });
 
-const seneca = promisifySeneca(oldSeneca);
-
+const seneca = SenecaPromisified.create(oldSeneca);
 
 describe('seneca-promisifaction', () => {
 

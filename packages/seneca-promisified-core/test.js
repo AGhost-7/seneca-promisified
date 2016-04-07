@@ -29,7 +29,7 @@ var oldSeneca = (0, _seneca2.default)({
 	}
 });
 
-var seneca = (0, _index2.default)(oldSeneca);
+var seneca = _index2.default.create(oldSeneca);
 
 describe('seneca-promisifaction', function () {
 

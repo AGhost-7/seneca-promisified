@@ -12,7 +12,7 @@ const completesPromise = (resolve, reject) => {
 /**
  * Meant to wrap the global seneca instance.
  */
-class SenecaWrapper {
+class SenecaPromisified {
 	constructor(seneca) {
 		Object.defineProperties(this, {
 			_seneca: {
@@ -40,8 +40,8 @@ class SenecaWrapper {
 	 * This is only there to allow classes which inherit from this one to 
 	 * override what the methods return.
 	 */
-	_instantiate(seneca) {
-		return new SenecaWrapper(seneca);
+	create(seneca) {
+		return new SenecaPromisified(seneca);
 	}
 	_handleResult(res, done) {
 		if(typeof res.then === 'function') {
@@ -63,10 +63,10 @@ class SenecaWrapper {
 		const handler = rest.length > 1 ? rest[1] : rest[0];
 
 		const handleResult = this._handleResult;
-		const instantiate = this._instantiate;
+		const create = this.create;
 		const wrappedHandler = function(args, done) {
 			const seneca = this;
-			const wrapped = instantiate(seneca);
+			const wrapped = create(seneca);
 			const res = handler.call(wrapped, args, wrapped);
 			handleResult(res, done);
 		};
@@ -101,10 +101,10 @@ class SenecaWrapper {
 		}
 
 		const plugin = typeof args[0] === 'string' ? args[1] : args[0];
-		const instantiate = this._instantiate;
+		const create = this.create;
 		const loader = function() {
 			const seneca = this;
-			const wrapped = instantiate(seneca);
+			const wrapped = create(seneca);
 			plugin.call(wrapped, wrapped);
 		};
 		
@@ -116,11 +116,11 @@ class SenecaWrapper {
 	}
 
 	/**
-	 * @returns {SenecaWrapper}
+	 * @returns {SenecaPromisified}
 	 */
 	delegate(opts) {
 		const del = this._seneca.delegate(opts);
-		return this._instantiate(del);
+		return this.create(del);
 	}
 
 	/**
@@ -159,7 +159,6 @@ class SenecaWrapper {
 	ready() {
 		return new Promise((resolve, reject) => {
 			this._seneca.ready((err) => err ? reject(err) : resolve());
-
 		});
 	}
 
@@ -170,7 +169,7 @@ class SenecaWrapper {
  *
  * TODO: Should this be a mixin instead? Does `extend` make the prototype chain longer?
  */
-class SenecaHandlerWrapper extends SenecaWrapper {
+class SenecaHandlerWrapper extends SenecaPromisified {
 	constructor(seneca) {
 		super(seneca);
 	}
@@ -185,6 +184,6 @@ class SenecaHandlerWrapper extends SenecaWrapper {
 	}
 }
 
-module.exports = (seneca) => new SenecaWrapper(seneca);
-module.exports.SenecaWrapper = SenecaWrapper;
+SenecaPromisified.create = (seneca) => new SenecaPromisified(seneca);
+module.exports = SenecaPromisified;
 
