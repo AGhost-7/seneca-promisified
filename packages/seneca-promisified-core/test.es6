@@ -19,7 +19,7 @@ const oldSeneca = senecaModule({
 
 const seneca = SenecaPromisified.create(oldSeneca);
 
-describe('seneca-promisifaction', () => {
+describe('seneca-promisified-core', () => {
 
 	before(() => {
 		return seneca.ready().then(() => {

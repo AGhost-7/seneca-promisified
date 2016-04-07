@@ -39,10 +39,16 @@ class SenecaPromisified {
 	/**
 	 * This is only there to allow classes which inherit from this one to 
 	 * override what the methods return.
+	 *
+	 * @returns {SenecaPromisified}
 	 */
 	create(seneca) {
 		return new SenecaPromisified(seneca);
 	}
+
+	/**
+	 * @private
+	 */
 	_handleResult(res, done) {
 		if(typeof res.then === 'function') {
 			res.then(done.bind(null, null), done);
@@ -124,6 +130,8 @@ class SenecaPromisified {
 	}
 
 	/**
+	 * Closes the connection established by `listen`.
+	 *
 	 * @returns {Promise}
 	 */
 	close() {

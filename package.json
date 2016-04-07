@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require bluebird-register packages/*/test.js",
+		"test:core": "mocha --require bluebird-register packages/*core/test.js",
     "bootstrap": "lerna bootstrap",
 		"build": "babel packages/*/index.es6 -o packages/*/index.js"
   },
@@ -24,7 +25,11 @@
     "url": "git+https://github.com/AGhost-7/seneca-promisified.git"
   },
   "keywords": [
-    "Promises"
+    "Promises",
+		"A+",
+		"Arrow Functions",
+		"ES6",
+		"seneca"
   ],
   "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
   "license": "MIT",
