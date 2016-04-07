@@ -39,6 +39,11 @@ var SenecaWrapper = function () {
 		});
 	}
 
+	/**
+  * @returns {Promise}
+  */
+
+
 	_createClass(SenecaWrapper, [{
 		key: 'act',
 		value: function act() {
@@ -52,6 +57,7 @@ var SenecaWrapper = function () {
 				_this._seneca.act.apply(_this._seneca, args.concat(completesPromise(resolve, reject)));
 			});
 		}
+
 		/**
    * This is only there to allow classes which inherit from this one to 
    * override what the methods return.
@@ -87,9 +93,10 @@ var SenecaWrapper = function () {
 			var handler = arguments.length - 1 > 1 ? arguments.length <= 2 ? undefined : arguments[2] : arguments.length <= 1 ? undefined : arguments[1];
 
 			var handleResult = this._handleResult;
+			var instantiate = this._instantiate;
 			var wrappedHandler = function wrappedHandler(args, done) {
 				var seneca = this;
-				var wrapped = new SenecaHandlerWrapper(seneca);
+				var wrapped = instantiate(seneca);
 				var res = handler.call(wrapped, args, wrapped);
 				handleResult(res, done);
 			};
@@ -130,9 +137,10 @@ var SenecaWrapper = function () {
 			}
 
 			var plugin = typeof args[0] === 'string' ? args[1] : args[0];
+			var instantiate = this._instantiate;
 			var loader = function loader() {
 				var seneca = this;
-				var wrapped = new SenecaWrapper(seneca);
+				var wrapped = instantiate(seneca);
 				plugin.call(wrapped, wrapped);
 			};
 
@@ -151,7 +159,7 @@ var SenecaWrapper = function () {
 		key: 'delegate',
 		value: function delegate(opts) {
 			var del = this._seneca.delegate(opts);
-			return new SenecaWrapper(del);
+			return this._instantiate(del);
 		}
 
 		/**
@@ -230,6 +238,11 @@ var SenecaHandlerWrapper = function (_SenecaWrapper) {
 
 		return _possibleConstructorReturn(this, Object.getPrototypeOf(SenecaHandlerWrapper).call(this, seneca));
 	}
+
+	/**
+  * @returns {Promise}
+  */
+
 
 	_createClass(SenecaHandlerWrapper, [{
 		key: 'prior',

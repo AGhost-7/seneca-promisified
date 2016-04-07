@@ -23,6 +23,10 @@ class SenecaWrapper {
 			}
 		});
 	}
+
+	/**
+	 * @returns {Promise}
+	 */
 	act(...args) {
 		return new Promise((resolve, reject) => {
 			this._seneca.act.apply(
@@ -31,6 +35,7 @@ class SenecaWrapper {
 			);
 		});
 	}
+
 	/**
 	 * This is only there to allow classes which inherit from this one to 
 	 * override what the methods return.
@@ -58,9 +63,10 @@ class SenecaWrapper {
 		const handler = rest.length > 1 ? rest[1] : rest[0];
 
 		const handleResult = this._handleResult;
+		const instantiate = this._instantiate;
 		const wrappedHandler = function(args, done) {
 			const seneca = this;
-			const wrapped = new SenecaHandlerWrapper(seneca);
+			const wrapped = instantiate(seneca);
 			const res = handler.call(wrapped, args, wrapped);
 			handleResult(res, done);
 		};
@@ -95,9 +101,10 @@ class SenecaWrapper {
 		}
 
 		const plugin = typeof args[0] === 'string' ? args[1] : args[0];
+		const instantiate = this._instantiate;
 		const loader = function() {
 			const seneca = this;
-			const wrapped = new SenecaWrapper(seneca);
+			const wrapped = instantiate(seneca);
 			plugin.call(wrapped, wrapped);
 		};
 		
@@ -113,7 +120,7 @@ class SenecaWrapper {
 	 */
 	delegate(opts) {
 		const del = this._seneca.delegate(opts);
-		return new SenecaWrapper(del);
+		return this._instantiate(del);
 	}
 
 	/**
@@ -167,6 +174,10 @@ class SenecaHandlerWrapper extends SenecaWrapper {
 	constructor(seneca) {
 		super(seneca);
 	}
+
+	/**
+	 * @returns {Promise}
+	 */
 	prior(args) {
 		return new Promise((resolve, reject) => {
 			this._seneca.prior(args, completesPromise(resolve, reject));
