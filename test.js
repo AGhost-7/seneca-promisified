@@ -20,15 +20,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* jshint esversion: 6 */
 
-var oldSeneca = (0, _seneca2.default)();
-oldSeneca.use('entity');
+var oldSeneca = (0, _seneca2.default)({
+	log: {
+		map: [{
+			plugin: 'all',
+			handler: function handler() {}
+		}]
+	}
+});
+
 var seneca = (0, _index2.default)(oldSeneca);
 
-describe('promisifaction', function () {
+describe('seneca-promisifaction', function () {
 
 	before(function () {
 		return seneca.ready().then(function () {
-			console.log('getting ready');
 			oldSeneca.add({
 				name: 'foobar',
 				role: 'entity'
@@ -38,20 +44,38 @@ describe('promisifaction', function () {
 			seneca.add({ name: 'counter', role: 'entity' }, function (_) {
 				return _ramda2.default.objOf('value', 1);
 			});
-			console.log('added counter');
 			seneca.add({ cmd: 'ping' }, function (_) {
 				return _ramda2.default.objOf('value', 'pong');
 			});
 		});
 	});
 
-	it('should handle arbirary calls', function () {
-		return seneca.act({ name: 'counter', role: 'entity' }).then(function (counter) {
-			_assert2.default.equal(counter.value, 1);
+	describe('act', function () {
+
+		it('simple form', function () {
+			return seneca.act({ name: 'counter', role: 'entity' }).then(function (counter) {
+				_assert2.default.equal(counter.value, 1);
+			});
+		});
+
+		it('wierd form', function () {
+			seneca.add({
+				a: 1, b: 2
+			}, function (args) {
+				return {
+					value: true
+				};
+			});
+
+			return seneca.act('a:1', { b: 2 }).then(function (_ref) {
+				var value = _ref.value;
+
+				_assert2.default.ok(value);
+			});
 		});
 	});
 
-	it('should handle plugins', function () {
+	it('use', function () {
 		seneca.use(function (seneca) {
 			seneca.add({
 				cmd: 'my-plugin'
@@ -67,12 +91,21 @@ describe('promisifaction', function () {
 		});
 	});
 
-	it('should allow pining', function () {
+	it('pin', function () {
 		var pinned = seneca.pin({ role: 'entity', name: '*' });
 		return pinned.counter({}).then(function (res) {
 			_assert2.default.equal(res.value, 1);
 		});
 	});
 
-	it('delegates', function () {});
+	it('delegates', function () {
+		var del = seneca.delegate({ role: 'entity' });
+		return del.act({
+			name: 'counter'
+		}).then(function (_ref2) {
+			var value = _ref2.value;
+
+			_assert2.default.equal(value, 1);
+		});
+	});
 });

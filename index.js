@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.SenecaWrapper = undefined;
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* jshint esversion: 6 */
 
 var _anyPromise = require('any-promise');
@@ -46,11 +41,15 @@ var SenecaWrapper = function () {
 
 	_createClass(SenecaWrapper, [{
 		key: 'act',
-		value: function act(args) {
+		value: function act() {
 			var _this = this;
 
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
 			return new _anyPromise2.default(function (resolve, reject) {
-				_this._seneca.act(args, completesPromise(resolve, reject));
+				_this._seneca.act.apply(_this._seneca, args.concat(completesPromise(resolve, reject)));
 			});
 		}
 		/**
@@ -121,8 +120,8 @@ var SenecaWrapper = function () {
 	}, {
 		key: 'use',
 		value: function use() {
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
+			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+				args[_key2] = arguments[_key2];
 			}
 
 			// For now call the regular context...
@@ -130,7 +129,7 @@ var SenecaWrapper = function () {
 				return this._seneca.use.apply(this._seneca, args);
 			}
 
-			var plugin = typeof args[0] === 'string' ? args[1] : arg[0];
+			var plugin = typeof args[0] === 'string' ? args[1] : args[0];
 			var loader = function loader() {
 				var seneca = this;
 				var wrapped = new SenecaWrapper(seneca);
@@ -140,7 +139,7 @@ var SenecaWrapper = function () {
 			if (args.length > 1) {
 				this._seneca.use(args[0], loader);
 			} else {
-				this._seneca.use(loaded);
+				this._seneca.use(loader);
 			}
 		}
 
@@ -166,7 +165,7 @@ var SenecaWrapper = function () {
 
 			return new _anyPromise2.default(function (resolve, reject) {
 				_this2._seneca.close(function (err) {
-					err ? reject(err) : resolve();
+					return err ? reject(err) : resolve();
 				});
 			});
 		}
@@ -207,7 +206,7 @@ var SenecaWrapper = function () {
 
 			return new _anyPromise2.default(function (resolve, reject) {
 				_this3._seneca.ready(function (err) {
-					err ? reject(err) : resolve();
+					return err ? reject(err) : resolve();
 				});
 			});
 		}
@@ -246,8 +245,7 @@ var SenecaHandlerWrapper = function (_SenecaWrapper) {
 	return SenecaHandlerWrapper;
 }(SenecaWrapper);
 
-exports.default = function (seneca) {
+module.exports = function (seneca) {
 	return new SenecaWrapper(seneca);
 };
-
-exports.SenecaWrapper = SenecaWrapper;
+module.exports.SenecaWrapper = SenecaWrapper;

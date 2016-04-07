@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "description": "Complete unobstrusive wrapper for seneca.js",
   "main": "seneca.js",
   "scripts": {

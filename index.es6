@@ -23,9 +23,12 @@ class SenecaWrapper {
 			}
 		});
 	}
-	act(args) {
+	act(...args) {
 		return new Promise((resolve, reject) => {
-			this._seneca.act(args, completesPromise(resolve, reject));
+			this._seneca.act.apply(
+				this._seneca,
+				args.concat(completesPromise(resolve, reject))
+			);
 		});
 	}
 	/**
@@ -91,7 +94,7 @@ class SenecaWrapper {
 			return this._seneca.use.apply(this._seneca, args);
 		}
 
-		const plugin = typeof args[0] === 'string' ? args[1] : arg[0];
+		const plugin = typeof args[0] === 'string' ? args[1] : args[0];
 		const loader = function() {
 			const seneca = this;
 			const wrapped = new SenecaWrapper(seneca);
@@ -101,7 +104,7 @@ class SenecaWrapper {
 		if(args.length > 1) {
 			this._seneca.use(args[0], loader);
 		} else {
-			this._seneca.use(loaded);
+			this._seneca.use(loader);
 		}
 	}
 
@@ -118,9 +121,7 @@ class SenecaWrapper {
 	 */
 	close() {
 		return new Promise((resolve, reject) => {
-			this._seneca.close((err) => {
-				err ? reject(err) : resolve();
-			});
+			this._seneca.close((err) => err ? reject(err) : resolve());
 		});
 	}
 
@@ -150,9 +151,7 @@ class SenecaWrapper {
 	 */
 	ready() {
 		return new Promise((resolve, reject) => {
-			this._seneca.ready((err) => {
-				err ? reject(err) : resolve();
-			});
+			this._seneca.ready((err) => err ? reject(err) : resolve());
 
 		});
 	}
@@ -175,6 +174,6 @@ class SenecaHandlerWrapper extends SenecaWrapper {
 	}
 }
 
-export default (seneca) => new SenecaWrapper(seneca);
+module.exports = (seneca) => new SenecaWrapper(seneca);
+module.exports.SenecaWrapper = SenecaWrapper;
 
-export {SenecaWrapper};
