@@ -1,5 +1,8 @@
 import Promise from 'any-promise';
 
+/**
+ * This just wraps over the object which is created when you call `make`.
+ */
 class SenecaEntityWrapper {
 	constructor(entity) {
 		Object.defineProperty(this, '_entity', {
@@ -36,31 +39,49 @@ class SenecaEntityWrapper {
 			this[k] = val;
 		});
 	}
-	_onEnt(ent) {
-		const wrapped = new SenecaEntityWrapper(ent);
-		wrapped._fromEntToWrapper();
-		return wrapped;
-	}
-	save$(obj) {
+
+	_callWithOpt(opt, prop) {
 		return new Promise((resolve, reject) => {
 			const onComplete = (err, ent) => {
 				if(err) return reject(err);
-				resolve(this._onEnt(ent));
+				const wrapped = new SenecaEntityWrapper(ent);
+				wrapped._fromEntToWrapper();
+				resolve(wrapped);
 			};
 
-			if(obj) {
-				this._entity.save(obj, onComplete);
+			if(opt !== undefined) {
+				this._entity[prop](opt, onComplete);
 			} else {
-				this._entity.save(onComplete);
+				// clear it to remove items which may not be
+				// present in the wrapper. If they're not in
+				// the wrapper they won't be overriden.
+				this._clearEnt(); 
+				this._fromWrapperToEnt();
+				this._entity[prop](onComplete);
 			}
 		});
 	}
+	save$(obj) {
+		return this._callWithOpt(obj, 'save$');
+	}
 	load$(query) {
-		this._clearEnt();
-		return new Promise((resolve, reject) => {
-			this._entity.load$((err, ent) => {
-			});
-		});
+		return this._callWithOpt(query, 'load$');
+		//return new Promise((resolve, reject) => {
+		//	this._entity.load$((err, ent) => {
+		//		const onComplete = (err, ent) => {
+		//			if(err) return reject(err);
+		//			resolve(this._onEnt(ent));
+		//		};
+
+		//		if(query) {
+		//			this._entity.load$(query, onComplete);
+		//		} else {
+		//			this._clearEnt();
+		//			this._fromWrapperToEnt();
+		//			this._entity.load$(onComplete);
+		//		}
+		//	});
+		//});
 	}
 	list$(query) {
 	}
@@ -81,13 +102,13 @@ const inheritsSymbolics = [
 inheritsSymbolics.forEach((key) => {
 	const symbolicKey = key + '$';
 	SenecaEntityWrapper.prototype[symbolicKey] = function() {
-		this.entity[symbolicKey].apply(this.entity, arguments);
+		this._entity[symbolicKey].apply(this._entity, arguments);
 	};
 });
 
 
-const make = function (name, base, zone) {
-	const entity = this._seneca.make(name, base, zone);
+const make = function (...args) {
+	const entity = this._seneca.make.apply(this._entity, args);
 	return new SenecaEntityWrapper(entity);
 };
 

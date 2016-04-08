@@ -31,7 +31,7 @@ var oldSeneca = (0, _seneca2.default)({
 
 var seneca = _index2.default.create(oldSeneca);
 
-describe('seneca-promisifaction', function () {
+describe('seneca-promisified-core', function () {
 
 	before(function () {
 		return seneca.ready().then(function () {
