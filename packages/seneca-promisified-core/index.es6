@@ -178,8 +178,19 @@ class SenecaPromisified {
 		});
 	}
 
+	/**
+	 * Modifies the prototype to add new methods.
+	 */
+	static use(fn) {
+		return fn(SenecaPromisified.prototype);
+	}
+
+	/**
+	 * Just an alternate way to instantiate the class...
+	 */
+	static create(seneca) {
+		return new SenecaPromisified(seneca);
+	}
 }
 
-SenecaPromisified.create = (seneca) => new SenecaPromisified(seneca);
 module.exports = SenecaPromisified;
-
