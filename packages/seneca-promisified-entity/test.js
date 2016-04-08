@@ -109,7 +109,6 @@ describe('entity', function () {
 			var ent = seneca.make('parrot');
 
 			return ent.save$({ hello: 'world' }).then(function (ent) {
-				_assert2.default.equal(ent.hello, 'world');
 				delete ent.hello;
 				ent.foo = 'bar';
 				return ent.save$();
@@ -126,13 +125,12 @@ describe('entity', function () {
 				cmd: 'load',
 				name: 'parrot'
 			}, function (args) {
-				return args.ent;
+				return args.q;
 			});
 		});
 
 		it('immediate load', function () {
 			return seneca.make('parrot').load$({ id: 'foobar' }).then(function (ent) {
-				console.log(ent);
 				_assert2.default.equal(ent.id, 'foobar');
 			});
 		});
@@ -149,6 +147,43 @@ describe('entity', function () {
 
 			return ent.load$().then(function (loaded) {
 				_assert2.default.equal(loaded.id, 'foobar');
+			});
+		});
+	});
+
+	describe('list', function () {
+		before(function () {
+			seneca.add({
+				role: 'entity',
+				cmd: 'list',
+				name: 'parrot'
+			}, function (args) {
+				console.log(args);
+				return args.q;
+			});
+		});
+
+		it('immediate list', function () {
+			return seneca.make('parrot').list$({ name: 'foobar' }).then(function (ent) {
+				_assert2.default.equal(ent.name, 'foobar');
+			});
+		});
+	});
+
+	describe('remove', function () {
+		before(function () {
+			seneca.add({
+				role: 'entity',
+				cmd: 'remove',
+				name: 'parrot'
+			}, function (args) {
+				return args.q;
+			});
+		});
+
+		it('removes!', function () {
+			return seneca.make('parrot').remove$({ name: 'foobar' }).then(function (ent) {
+				_assert2.default.equal(ent.name, 'foobar');
 			});
 		});
 	});

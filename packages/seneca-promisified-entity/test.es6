@@ -75,7 +75,6 @@ describe('entity', () => {
 			return ent
 				.save$({ hello: 'world' })
 				.then((ent) => {
-					assert.equal(ent.hello, 'world');
 					delete ent.hello;
 					ent.foo = 'bar';
 					return ent.save$();
@@ -92,7 +91,7 @@ describe('entity', () => {
 				role: 'entity',
 				cmd: 'load',
 				name: 'parrot'
-			}, (args) => args.ent);
+			}, (args) => args.q);
 		});
 
 		it('immediate load', () => {
@@ -100,7 +99,6 @@ describe('entity', () => {
 				.make('parrot')
 				.load$({ id: 'foobar' })
 				.then((ent) => {
-					console.log(ent);
 					assert.equal(ent.id, 'foobar');
 				});
 		});
@@ -124,7 +122,47 @@ describe('entity', () => {
 					assert.equal(loaded.id, 'foobar');
 				});
 		});
-
-
 	});
+
+	describe('list', () => {
+		before(() => {
+			seneca.add({
+				role: 'entity',
+				cmd: 'list',
+				name: 'parrot'
+			}, (args) => {
+				console.log(args);
+				return args.q;
+			});
+		});
+
+		it('immediate list', () => {
+			return seneca
+				.make('parrot')
+				.list$({ name: 'foobar' })
+				.then((ent) => {
+					assert.equal(ent.name, 'foobar');
+				});
+		});
+	});
+
+	describe('remove', () => {
+		before(() => {
+			seneca.add({
+				role: 'entity',
+				cmd: 'remove',
+				name: 'parrot'
+			}, (args) => args.q);
+		});
+
+		it('removes!', () => {
+			return seneca
+				.make('parrot')
+				.remove$({ name: 'foobar' })
+				.then((ent) => {
+					assert.equal(ent.name, 'foobar');
+				});
+		});
+	});
+
 });

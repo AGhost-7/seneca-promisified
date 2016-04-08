@@ -66,26 +66,12 @@ class SenecaEntityWrapper {
 	}
 	load$(query) {
 		return this._callWithOpt(query, 'load$');
-		//return new Promise((resolve, reject) => {
-		//	this._entity.load$((err, ent) => {
-		//		const onComplete = (err, ent) => {
-		//			if(err) return reject(err);
-		//			resolve(this._onEnt(ent));
-		//		};
-
-		//		if(query) {
-		//			this._entity.load$(query, onComplete);
-		//		} else {
-		//			this._clearEnt();
-		//			this._fromWrapperToEnt();
-		//			this._entity.load$(onComplete);
-		//		}
-		//	});
-		//});
 	}
 	list$(query) {
+		return this._callWithOpt(query, 'list$');
 	}
-	remove$() {
+	remove$(query) {
+		return this._callWithOpt(query, 'remove$');
 	}
 	
 }
