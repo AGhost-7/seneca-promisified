@@ -9,6 +9,13 @@ const completesPromise = (resolve, reject) => {
 	};
 };
 
+const prior = function(args) {
+	const seneca = this._seneca;
+	return new Promise((resolve, reject) => {
+		seneca.prior(args, completesPromise(resolve, reject));
+	});
+};
+
 /**
  * Meant to wrap the global seneca instance.
  */
@@ -73,6 +80,7 @@ class SenecaPromisified {
 		const wrappedHandler = function(args, done) {
 			const seneca = this;
 			const wrapped = create(seneca);
+			wrapped.prior = prior;
 			const res = handler.call(wrapped, args, wrapped);
 			handleResult(res, done);
 		};
@@ -170,26 +178,6 @@ class SenecaPromisified {
 		});
 	}
 
-}
-
-/**
- * This is used to wrap the seneca context of action handlers..
- *
- * TODO: Should this be a mixin instead? Does `extend` make the prototype chain longer?
- */
-class SenecaHandlerWrapper extends SenecaPromisified {
-	constructor(seneca) {
-		super(seneca);
-	}
-
-	/**
-	 * @returns {Promise}
-	 */
-	prior(args) {
-		return new Promise((resolve, reject) => {
-			this._seneca.prior(args, completesPromise(resolve, reject));
-		});
-	}
 }
 
 SenecaPromisified.create = (seneca) => new SenecaPromisified(seneca);
