@@ -1,4 +1,4 @@
-import patchMake from './index';
+import patchMake from '../index';
 import SenecaPromisified from 'seneca-promisified-core';
 import senecaModule from 'seneca';
 import assert from 'assert';
@@ -131,7 +131,6 @@ describe('entity', () => {
 				cmd: 'list',
 				name: 'parrot'
 			}, (args) => {
-				console.log(args);
 				return args.q;
 			});
 		});

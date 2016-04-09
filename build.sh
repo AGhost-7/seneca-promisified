@@ -1,4 +1,6 @@
 for f in packages/*; do
-	babel "$f/index.es6" -o "$f/index.js"
-	babel "$f/test.es6" -o "$f/test.js"
+	mkdir -p "$f/lib"
+	babel "$f/src/index.js" -o "$f/lib/index.js"
+	mkdir -p "$f/.test"
+	babel "$f/test/index.js" -o "$f/.test/index.js"
 done

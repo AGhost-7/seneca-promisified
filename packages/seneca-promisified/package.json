@@ -1,19 +1,36 @@
 {
   "name": "seneca-promisified",
   "version": "0.6.4",
-  "description": "Metapackage containing all of the wrappers.",
+  "description": "Metapackage containing all of the seneca-promisified wrappers.",
   "main": "index.js",
   "scripts": {
     "test": "echo 'See repo for tests'"
   },
   "depdendencies": {
-    "seneca-promisified-core": "0.1.0",
-    "seneca-promisified-entity": "0.1.0"
+    "seneca-promisified-core": "0.6.4",
+    "seneca-promisified-entity": "0.6.4"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "seneca": "^2.0.0",
     "seneca-entity": "0.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AGhost-7/seneca-promisified.git"
+  },
+  "keywords": [
+    "Promises",
+    "A+",
+    "Arrow Functions",
+    "ES6",
+    "seneca"
+  ],
+  "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AGhost-7/seneca-promisified/issues"
+  },
+  "homepage": "https://github.com/AGhost-7/seneca-promisified#readme"
 }

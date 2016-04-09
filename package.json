@@ -5,7 +5,8 @@
   "description": "A wrapper which makes senecajs not hostile to promises. Also permits you to access seneca context without having to use the `this` keyword (arrow functions).",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require bluebird-register packages/*/test.js",
+		"publish": "lerna publish",
+    "test": "mocha --require bluebird-register packages/*/.test/index.js",
     "test:core": "mocha --require bluebird-register packages/*core/test.js",
     "watch": "sh ./watch.sh",
     "bootstrap": "lerna bootstrap",

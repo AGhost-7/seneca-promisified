@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 
 import senecaModule from 'seneca';
-import SenecaPromisified from './index';
+import SenecaPromisified from '../index';
 import assert from 'assert';
 import R from 'ramda';
 
@@ -17,7 +17,7 @@ const oldSeneca = senecaModule({
 	}
 });
 
-const seneca = SenecaPromisified.create(oldSeneca);
+const seneca = new SenecaPromisified(oldSeneca);
 
 describe('seneca-promisified-core', () => {
 
@@ -55,6 +55,17 @@ describe('seneca-promisified-core', () => {
 				.act('a:1', { b: 2 })
 				.then(({ value }) => {
 					assert.ok(value);
+				});
+		});
+
+		it('nested', () => {
+			return seneca.act({ a: 1, b: 2, x: 10 })
+				.then((res) => {
+					assert.ok(res.value);
+					return seneca.act({ a: 1, b: 2, y: 10 });
+				})
+				.then((res) => {
+					assert.ok(res.value);
 				});
 		});
 	});

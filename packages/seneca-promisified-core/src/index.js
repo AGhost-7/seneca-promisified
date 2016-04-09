@@ -9,6 +9,11 @@ const completesPromise = (resolve, reject) => {
 	};
 };
 
+/**
+ * Automatically patched on the SenecaPromisified instance.
+ * @memberof SenecaPromisified
+ * @param {Object} args - Is the args object to pass to the next handler
+ */
 const prior = function(args) {
 	const seneca = this._seneca;
 	return new Promise((resolve, reject) => {
@@ -18,6 +23,8 @@ const prior = function(args) {
 
 /**
  * Meant to wrap the global seneca instance.
+ *
+ * @class SenecaPromisified
  */
 class SenecaPromisified {
 	constructor(seneca) {
@@ -32,7 +39,15 @@ class SenecaPromisified {
 	}
 
 	/**
+	 * Calls a seneca handler.
+	 *
+	 * @public
 	 * @returns {Promise}
+	 * @example
+	 * // These all do the same thing...
+	 * seneca.act('foo:true,bar:false').then(console.log);
+	 * seneca.act({ foo: true, bar: false }).then(console.log);
+	 * seneca.act('foo:true', { bar: false }).then(console.log);
 	 */
 	act(...args) {
 		return new Promise((resolve, reject) => {
@@ -45,9 +60,14 @@ class SenecaPromisified {
 
 	/**
 	 * This is only there to allow classes which inherit from this one to 
-	 * override what the methods return.
+	 * override what the methods return. If you extend this class you should
+	 * override this method to return a new instance of this one for the
+	 * internals to work properly.
 	 *
+	 * @public
+	 * @param {Object} seneca - Is the callback-base seneca instance.
 	 * @returns {SenecaPromisified}
+	 *
 	 */
 	create(seneca) {
 		return new SenecaPromisified(seneca);
@@ -66,10 +86,12 @@ class SenecaPromisified {
 		}
 	}
 	/**
-	 * Example:
+	 * Adds a handler to the internal seneca instance.
 	 *
+	 * @public
+	 * @example
 	 * this.add({ cmd: 'foobar' }, function(args) {
-	 * 	return Promise.resolve('FOOBAR');
+	 *   return Promise.resolve('FOOBAR');
 	 * });
 	 */
 	add(pat, ...rest) {
@@ -92,7 +114,9 @@ class SenecaPromisified {
 	}
 
 	/**
-	 * Example:
+	 * @public
+	 * @returns {Undefined}
+	 * @example
 	 * seneca.use((seneca) => {
 	 * 	seneca.add({ cmd: 'ping' }, (args, seneca) => {
 	 * 		return seneca.act({ cmd: '' });
@@ -105,7 +129,6 @@ class SenecaPromisified {
 	 * 		return this.act({ cmd: 'ping' });
 	 * 	});
 	 * });
-	 * @returns {Void}
 	 */
 	use(...args) {
 
@@ -130,7 +153,17 @@ class SenecaPromisified {
 	}
 
 	/**
+	 * Returns a new seneca object which will automatically add the given
+	 * properties to the object you send.
+	 *
+	 * @public
+	 * @param {Object} opts - The properties to automatically add.
 	 * @returns {SenecaPromisified}
+	 *
+	 * @example
+	 * const delegated = seneca.delegate({ safe: false });
+	 * // The object submitted will also have the `safe` property.
+	 * delegated.act({ cmd: 'ping' });
 	 */
 	delegate(opts) {
 		const del = this._seneca.delegate(opts);
@@ -140,6 +173,7 @@ class SenecaPromisified {
 	/**
 	 * Closes the connection established by `listen`.
 	 *
+	 * @public
 	 * @returns {Promise}
 	 */
 	close() {
@@ -149,8 +183,9 @@ class SenecaPromisified {
 	}
 
 	/**
-	 * Similar to act.
+	 * Similar to delegate.
 	 *
+	 * @public
 	 * @returns {Object}
 	 */
 	pin(pat) {
@@ -165,11 +200,15 @@ class SenecaPromisified {
 		}, {});
 	}
 
+	/**
+	 * @public
+	 */
 	listen(opts) {
 		this._seneca.listen(opts);
 	}
 
 	/**
+	 * @public
 	 * @returns {Promise}
 	 */
 	ready() {
@@ -180,6 +219,11 @@ class SenecaPromisified {
 
 	/**
 	 * Modifies the prototype to add new methods.
+	 *
+	 * @public
+	 * @static
+	 * @param {Function} fn - Side effecting function which changes the
+	 * prototype.
 	 */
 	static use(fn) {
 		return fn(SenecaPromisified.prototype);
@@ -187,10 +231,11 @@ class SenecaPromisified {
 
 	/**
 	 * Just an alternate way to instantiate the class...
+	 * @static
 	 */
 	static create(seneca) {
 		return new SenecaPromisified(seneca);
 	}
 }
-
+/** @exports */
 module.exports = SenecaPromisified;

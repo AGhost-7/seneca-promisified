@@ -1,13 +1,11 @@
 {
   "name": "seneca-promisified-entity",
   "version": "0.6.4",
-  "description": "",
+  "description": "Promise wrapper for the senecajs entity module.",
   "main": "index.js",
   "scripts": {
     "test": "echo 'See metapackage for test runner'"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "any-promise": "^1.1.0"
   },
@@ -16,5 +14,22 @@
     "seneca": "^2.0.0",
     "seneca-entity": "0.0.1",
     "seneca-promisified-core": "^0.6.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AGhost-7/seneca-promisified.git"
+  },
+  "keywords": [
+    "Promises",
+    "A+",
+    "Arrow Functions",
+    "ES6",
+    "seneca"
+  ],
+  "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AGhost-7/seneca-promisified/issues"
+  },
+  "homepage": "https://github.com/AGhost-7/seneca-promisified#readme"
 }

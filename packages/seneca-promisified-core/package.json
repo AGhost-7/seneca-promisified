@@ -16,5 +16,22 @@
   },
   "dependencies": {
     "any-promise": "^1.1.0"
-  }
+  },
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/AGhost-7/seneca-promisified.git"
+  },
+  "keywords": [
+    "Promises",
+    "A+",
+    "Arrow Functions",
+    "ES6",
+    "seneca"
+  ],
+  "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AGhost-7/seneca-promisified/issues"
+  },
+  "homepage": "https://github.com/AGhost-7/seneca-promisified#readme"
 }
