@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified-core",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Complete unobstrusive wrapper for seneca.js",
   "main": "seneca.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "any-promise": "^1.1.0"
   },
-	"repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/AGhost-7/seneca-promisified.git"
   },
@@ -28,8 +28,6 @@
     "ES6",
     "seneca"
   ],
-  "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AGhost-7/seneca-promisified/issues"
   },
