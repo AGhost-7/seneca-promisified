@@ -19,8 +19,22 @@ var completesPromise = function completesPromise(resolve, reject) {
 
 /**
  * Automatically patched on the SenecaPromisified instance.
- * @memberof SenecaPromisified
+ * @memberof SenecaPromisified.prototype
  * @param {Object} args - Is the args object to pass to the next handler
+ *
+ * @example
+ * seneca.add({ foo: 'bar' }, (args) => {
+ *   return { response: 1 };
+ * });
+ * seneca.add({ foo: 'bar' }, (args, seneca) => {
+ *   return seneca.prior(args).then(({ response }) => {
+ *     return {
+ *       response: response + 1
+ *     };
+ *   });
+ * });
+ *
+ * seneca.act({ foo: 'bar' }).then(console.log); // => `{ response: 2 }`
  */
 var prior = function prior(args) {
 	var seneca = this._seneca;
@@ -85,7 +99,6 @@ var SenecaPromisified = function () {
    * @public
    * @param {Object} seneca - Is the callback-base seneca instance.
    * @returns {SenecaPromisified}
-   *
    */
 
 	}, {
@@ -192,7 +205,6 @@ var SenecaPromisified = function () {
    * @public
    * @param {Object} opts - The properties to automatically add.
    * @returns {SenecaPromisified}
-   *
    * @example
    * const delegated = seneca.delegate({ safe: false });
    * // The object submitted will also have the `safe` property.
@@ -230,6 +242,19 @@ var SenecaPromisified = function () {
    *
    * @public
    * @returns {Object}
+   *
+   * @example
+   * seneca.add({ cmd: 'save', entity: 'person' }, (args) => {
+   *   return { saved: true };
+   * });
+   * seneca.add({ cmd: 'load', entity: 'person' }, (args) => {
+   *   return { loaded: true };
+   * });
+   *
+   * const pin = seneca.pin({ cmd: '*', entity: 'person' });
+   *
+   * pin.load({}).then(console.log); // => `{ loaded: true }`
+   * pin.save({}).then(console.log); // => `{ saved: true }`
    */
 
 	}, {
@@ -247,7 +272,9 @@ var SenecaPromisified = function () {
 		}
 
 		/**
+   * Opens a connection.
    * @public
+   * @returns {Undefined}
    */
 
 	}, {
@@ -257,6 +284,7 @@ var SenecaPromisified = function () {
 		}
 
 		/**
+   * Returns a promise which will be resolved when seneca is loaded.
    * @public
    * @returns {Promise}
    */
@@ -302,7 +330,5 @@ var SenecaPromisified = function () {
 
 	return SenecaPromisified;
 }();
-/** @exports */
-
 
 module.exports = SenecaPromisified;

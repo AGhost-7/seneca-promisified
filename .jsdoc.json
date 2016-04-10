@@ -1,0 +1,14 @@
+{
+	"source": {
+		"include": [
+			"./packages/seneca-promisified-core/src",
+			"./packages/seneca-promisified-entity/src",
+			"./packages/seneca-promisified"
+		]
+	},
+	"opts": {
+		"destination": "./docs",
+		"template": "./node_modules/minami"
+	},
+	"plugins": ["plugins/markdown"]
+}
