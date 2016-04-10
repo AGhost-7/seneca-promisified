@@ -3,6 +3,7 @@ import SenecaPromisified from '../index';
 import assert from 'assert';
 
 const cbSeneca = senecaModule({ log: 'silent' });
+cbSeneca.use('entity');
 const seneca = SenecaPromisified.create(cbSeneca);
 
 describe('metapackage', () => {

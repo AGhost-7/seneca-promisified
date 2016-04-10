@@ -7,14 +7,14 @@
     "test": "echo 'See repo for tests'"
   },
   "dependencies": {
-    "seneca-promisified-core": "0.6.4",
-    "seneca-promisified-entity": "0.6.4"
+    "seneca-promisified-core": "^0.6.4",
+    "seneca-promisified-entity": "^0.6.4"
   },
   "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "seneca": "^2.0.0",
-    "seneca-entity": "0.0.1"
+    "seneca-entity": "^0.0.1"
   },
   "repository": {
     "type": "git",

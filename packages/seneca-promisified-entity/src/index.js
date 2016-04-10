@@ -156,7 +156,6 @@ inheritsSymbolics.forEach((key) => {
 	};
 });
 
-
 const make = function (...args) {
 	const entity = this._seneca.make.apply(this._entity, args);
 	return new SenecaEntityWrapper(entity);
