@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SenecaEntityWrapper - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SenecaEntityWrapper.html">SenecaEntityWrapper</a><ul class='methods'><li data-type='method'><a href="SenecaEntityWrapper.html#list$">list$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#load$">load$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#remove$">remove$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#save$">save$</a></li></ul></li><li><a href="SenecaPromisified.html">SenecaPromisified</a><ul class='methods'><li data-type='method'><a href="SenecaPromisified.html#.create">create</a></li><li data-type='method'><a href="SenecaPromisified.html#.use">use</a></li><li data-type='method'><a href="SenecaPromisified.html#act">act</a></li><li data-type='method'><a href="SenecaPromisified.html#add">add</a></li><li data-type='method'><a href="SenecaPromisified.html#close">close</a></li><li data-type='method'><a href="SenecaPromisified.html#create">create</a></li><li data-type='method'><a href="SenecaPromisified.html#delegate">delegate</a></li><li data-type='method'><a href="SenecaPromisified.html#listen">listen</a></li><li data-type='method'><a href="SenecaPromisified.html#pin">pin</a></li><li data-type='method'><a href="SenecaPromisified.html#prior">prior</a></li><li data-type='method'><a href="SenecaPromisified.html#ready">ready</a></li><li data-type='method'><a href="SenecaPromisified.html#use">use</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SenecaEntityWrapper</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        SenecaEntityWrapper
+        </h2>
+        
+            <div class="class-description"><p>This just wraps over the object which is created when you call <code>make</code>.</p>
+<p>The <code>fields$</code>, <code>is$</code>, <code>clone$</code>, <code>data$</code>, <code>canon$</code>, <code>native$</code> methods all
+work the exact same way as the original seneca entity.</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="SenecaEntityWrapper"><span class="type-signature"></span>new SenecaEntityWrapper<span class="signature">(entity)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>entity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The entity returned when you call the real
+<code>seneca.make$</code> method.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="seneca-promisified-entity_src_index.js.html">seneca-promisified-entity/src/index.js</a>, <a href="seneca-promisified-entity_src_index.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="list$"><span class="type-signature"></span>list$<span class="signature">(query)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Returns a list of entities.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query to pass down to the internal seneca
+instance. The query dsl will depdend on what kind of module you're using
+with the entity module.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="seneca-promisified-entity_src_index.js.html">seneca-promisified-entity/src/index.js</a>, <a href="seneca-promisified-entity_src_index.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const allPersons = seneca.make('person').list$({ all$: true });</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="load$"><span class="type-signature"></span>load$<span class="signature">(query)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Loads an entity.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Query to pass down to the internal seneca
+instance.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="seneca-promisified-entity_src_index.js.html">seneca-promisified-entity/src/index.js</a>, <a href="seneca-promisified-entity_src_index.js.html#line108">line 108</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const funnyJoe = seneca
+  .make('person')
+  .load$({ funny: true, name: 'Joe' });</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="remove$"><span class="type-signature"></span>remove$<span class="signature">(query)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Removes the given entity</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query to pass to the internal seneca instance.
+If not specified will use the fields stored on the entity itself.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="seneca-promisified-entity_src_index.js.html">seneca-promisified-entity/src/index.js</a>, <a href="seneca-promisified-entity_src_index.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Creates then removes the entity immediately.
+seneca
+  .make('person')
+  .save$({ name: 'foobar' })
+  .then((ent) => ent.remove$());</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="save$"><span class="type-signature"></span>save$<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Saves the stored entity</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional object to use for saving. If not specified
+it will use the members on the entity object itself as the data to save.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="seneca-promisified-entity_src_index.js.html">seneca-promisified-entity/src/index.js</a>, <a href="seneca-promisified-entity_src_index.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const ent = seneca.make('person');
+ent.id = 1;
+ent.name = 'foobar';
+ent.save$(); // => Promise</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Apr 09 2016 20:10:27 GMT-0400 (EDT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
