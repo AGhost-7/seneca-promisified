@@ -1,4 +1,4 @@
 language: node_js
 node_js:
   - 4.4.4
-post_install: npm run bootstrap && npm run build
+before_script: npm run bootstrap && npm run build
