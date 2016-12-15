@@ -16,13 +16,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * The `fields$`, `is$`, `clone$`, `data$`, `canon$`, `native$` methods all
  * work the exact same way as the original seneca entity.
  */
-
 var SenecaEntityWrapper = function () {
 	/**
   * @param {Object} entity - The entity returned when you call the real
   * `seneca.make$` method.
   */
-
 	function SenecaEntityWrapper(entity) {
 		_classCallCheck(this, SenecaEntityWrapper);
 

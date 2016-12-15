@@ -135,7 +135,7 @@ var SenecaPromisified = function () {
 	}, {
 		key: 'add',
 		value: function add(pat) {
-			var handler = arguments.length - 1 > 1 ? arguments.length <= 2 ? undefined : arguments[2] : arguments.length <= 1 ? undefined : arguments[1];
+			var handler = (arguments.length <= 1 ? 0 : arguments.length - 1) > 1 ? arguments.length <= 2 ? undefined : arguments[2] : arguments.length <= 1 ? undefined : arguments[1];
 
 			var handleResult = this._handleResult;
 			var create = this.create;
@@ -146,7 +146,7 @@ var SenecaPromisified = function () {
 				var res = handler.call(wrapped, args, wrapped);
 				handleResult(res, done);
 			};
-			if (arguments.length - 1 > 1) {
+			if ((arguments.length <= 1 ? 0 : arguments.length - 1) > 1) {
 				this._seneca.add(pat, arguments.length <= 1 ? undefined : arguments[1], wrappedHandler);
 			} else {
 				this._seneca.add(pat, wrappedHandler);
