@@ -1,5 +1,7 @@
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _anyPromise = require('any-promise');
@@ -187,17 +189,55 @@ var SenecaEntityWrapper = function () {
 		value: function remove$(query) {
 			return this._callWithOpt(query, 'remove$');
 		}
+
+		/**
+   * Setter or getter depending on whether an object is specified as a parameter.
+   * If the method is called with an object as the specified parameter it will
+   * return the `SenecaEntityWrapper` instance(i.e., return itself). Otherwise,
+   * it will behave like the seneca entity object and return the storable data
+   * within the entity.
+   *
+   * @param {Object} setProperties - If specified will set all of the object's
+   * iterable properties to the wrapper.
+   * @returns {Object|SenecaEntityWrapper}
+   * @example
+   * var name = seneca
+   *   .make('user')
+   *   .data$({ name: 'foobar' })
+   *   .name;
+   *
+   * console.log(name); // => 'foobar'
+   *
+   * var data = seneca
+   *   .make('user', { name: 'foobar })
+   *   .data$();
+   *
+   * console.log(data); // => { name: 'foobar' }
+   */
+
+	}, {
+		key: 'data$',
+		value: function data$(setProperties) {
+			if ((typeof setProperties === 'undefined' ? 'undefined' : _typeof(setProperties)) === 'object' && setProperties !== null) {
+				console.log('setting');
+				this._entity.data$(setProperties);
+				this._fromEntToWrapper();
+				return this;
+			}
+
+			return this._entity.data$();
+		}
 	}]);
 
 	return SenecaEntityWrapper;
 }();
 
-var inheritsSymbolics = ['fields', 'is', 'canon', 'native', 'data', 'clone'];
+var inheritsSymbolics = ['fields', 'is', 'canon', 'native', 'clone'];
 
 inheritsSymbolics.forEach(function (key) {
 	var symbolicKey = key + '$';
 	SenecaEntityWrapper.prototype[symbolicKey] = function () {
-		this._entity[symbolicKey].apply(this._entity, arguments);
+		return this._entity[symbolicKey].apply(this._entity, arguments);
 	};
 });
 
