@@ -164,4 +164,18 @@ describe('entity', () => {
 		});
 	});
 
+	describe('make', () => {
+
+		it('should return a wrapper instance', () => {
+			assert.notEqual(seneca.make('person')._entity, undefined);
+		});
+
+		it('should set the entity with data if the first parameter is specified', () => {
+			const ent = seneca.make('person', { name: 'foobar' });
+
+			assert.equal(ent._entity.name, 'foobar');
+			assert.equal(ent.name, 'foobar');
+		});
+	});
+
 });

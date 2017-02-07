@@ -207,7 +207,9 @@ var make = function make() {
 	}
 
 	var entity = this._seneca.make.apply(this._entity, args);
-	return new SenecaEntityWrapper(entity);
+	var wrapper = new SenecaEntityWrapper(entity);
+	wrapper._fromEntToWrapper();
+	return wrapper;
 };
 
 // Need to patch the item.
