@@ -3,7 +3,7 @@ import Promise from 'any-promise';
 /**
  * This just wraps over the object which is created when you call `make`.
  *
- * The `fields$`, `is$`, `clone$`, `data$`, `canon$`, `native$` methods all
+ * The `fields$`, `is$`, `clone$`, `canon$`, `native$` methods all
  * work the exact same way as the original seneca entity.
  */
 class SenecaEntityWrapper {
@@ -137,7 +137,40 @@ class SenecaEntityWrapper {
 	remove$(query) {
 		return this._callWithOpt(query, 'remove$');
 	}
-	
+
+	/**
+	 * Setter or getter depending on whether an object is specified as a parameter.
+	 * If the method is called with an object as the specified parameter it will
+	 * return the `SenecaEntityWrapper` instance(i.e., return itself). Otherwise,
+	 * it will behave like the seneca entity object and return the storable data
+	 * within the entity.
+	 *
+	 * @param {Object} setProperties - If specified will set all of the object's
+	 * iterable properties to the wrapper.
+	 * @returns {Object|SenecaEntityWrapper}
+	 * @example
+	 * var name = seneca
+	 *   .make('user')
+	 *   .data$({ name: 'foobar' })
+	 *   .name;
+	 *
+	 * console.log(name); // => 'foobar'
+	 *
+	 * var data = seneca
+	 *   .make('user', { name: 'foobar })
+	 *   .data$();
+	 *
+	 * console.log(data); // => { name: 'foobar' }
+	 */
+	data$(setProperties) {
+		if(typeof setProperties === 'object' && setProperties !== null) {
+			this._entity.data$(setProperties);
+			this._fromEntToWrapper();
+			return this;
+		}
+		
+		return this._entity.data$();
+	}
 }
 
 const inheritsSymbolics = [
@@ -145,14 +178,13 @@ const inheritsSymbolics = [
 	'is',
 	'canon',
 	'native',
-	'data',
 	'clone'
 ];
 
 inheritsSymbolics.forEach((key) => {
 	const symbolicKey = key + '$';
 	SenecaEntityWrapper.prototype[symbolicKey] = function() {
-		this._entity[symbolicKey].apply(this._entity, arguments);
+		return this._entity[symbolicKey].apply(this._entity, arguments);
 	};
 });
 

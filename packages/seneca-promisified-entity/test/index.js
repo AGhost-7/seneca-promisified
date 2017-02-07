@@ -178,4 +178,25 @@ describe('entity', () => {
 		});
 	});
 
+	describe('data', () => {
+		const ent = seneca.make('person', { name: 'foobar' });
+
+		it('should set', () => {
+			ent.data$({ age: 1 });
+			assert.equal(ent.age, 1);
+			assert.equal(ent._entity.age, 1);
+		});
+
+		it('should return the wrapper instance when it sets properties', () => {
+			var wrapper = ent.data$({ age: 1 });
+			assert.notEqual(wrapper._entity, undefined);
+		});
+
+		it('should get', () => {
+			var data = ent.data$();
+			assert.equal(data.name, 'foobar');
+			assert.equal(data._entity, undefined);
+		});
+	});
+
 });
