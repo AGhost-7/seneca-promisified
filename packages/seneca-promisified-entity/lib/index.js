@@ -15,7 +15,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * This just wraps over the object which is created when you call `make`.
  *
- * The `fields$`, `is$`, `clone$`, `data$`, `canon$`, `native$` methods all
+ * The `fields$`, `is$`, `clone$`, `canon$`, `native$` methods all
  * work the exact same way as the original seneca entity.
  */
 var SenecaEntityWrapper = function () {
@@ -219,7 +219,6 @@ var SenecaEntityWrapper = function () {
 		key: 'data$',
 		value: function data$(setProperties) {
 			if ((typeof setProperties === 'undefined' ? 'undefined' : _typeof(setProperties)) === 'object' && setProperties !== null) {
-				console.log('setting');
 				this._entity.data$(setProperties);
 				this._fromEntToWrapper();
 				return this;
@@ -247,7 +246,9 @@ var make = function make() {
 	}
 
 	var entity = this._seneca.make.apply(this._entity, args);
-	return new SenecaEntityWrapper(entity);
+	var wrapper = new SenecaEntityWrapper(entity);
+	wrapper._fromEntToWrapper();
+	return wrapper;
 };
 
 // Need to patch the item.
