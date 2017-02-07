@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified-entity",
-  "version": "0.6.8",
+  "version": "0.6.10",
   "description": "Promise wrapper for the senecajs entity module.",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "ramda": "^0.20.1",
     "seneca": "^2.0.0",
     "seneca-entity": "0.0.1",
-    "seneca-promisified-core": "^0.6.8"
+    "seneca-promisified-core": "^0.6.10"
   },
   "repository": {
     "type": "git",

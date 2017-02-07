@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified-core",
-  "version": "0.6.8",
+  "version": "0.6.10",
   "description": "Complete unobstrusive wrapper for seneca.js",
   "main": "index.js",
   "scripts": {
