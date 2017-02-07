@@ -3,7 +3,7 @@ import Promise from 'any-promise';
 /**
  * This just wraps over the object which is created when you call `make`.
  *
- * The `fields$`, `is$`, `clone$`, `data$`, `canon$`, `native$` methods all
+ * The `fields$`, `is$`, `clone$`, `canon$`, `native$` methods all
  * work the exact same way as the original seneca entity.
  */
 class SenecaEntityWrapper {
