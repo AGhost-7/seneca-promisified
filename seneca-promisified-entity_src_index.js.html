@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>seneca-promisified-entity/src/index.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
@@ -23,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SenecaEntityWrapper.html">SenecaEntityWrapper</a><ul class='methods'><li data-type='method'><a href="SenecaEntityWrapper.html#list$">list$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#load$">load$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#remove$">remove$</a></li><li data-type='method'><a href="SenecaEntityWrapper.html#save$">save$</a></li></ul></li><li><a href="SenecaPromisified.html">SenecaPromisified</a><ul class='methods'><li data-type='method'><a href="SenecaPromisified.html#.create">create</a></li><li data-type='method'><a href="SenecaPromisified.html#.use">use</a></li><li data-type='method'><a href="SenecaPromisified.html#act">act</a></li><li data-type='method'><a href="SenecaPromisified.html#add">add</a></li><li data-type='method'><a href="SenecaPromisified.html#close">close</a></li><li data-type='method'><a href="SenecaPromisified.html#create">create</a></li><li data-type='method'><a href="SenecaPromisified.html#delegate">delegate</a></li><li data-type='method'><a href="SenecaPromisified.html#listen">listen</a></li><li data-type='method'><a href="SenecaPromisified.html#pin">pin</a></li><li data-type='method'><a href="SenecaPromisified.html#prior">prior</a></li><li data-type='method'><a href="SenecaPromisified.html#ready">ready</a></li><li data-type='method'><a href="SenecaPromisified.html#use">use</a></li></ul></li></ul>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html">SenecaEntityWrapper</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html#data$">data$</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html#list$">list$</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html#load$">load$</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html#remove$">remove$</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaEntityWrapper.html#save$">save$</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SenecaPromisified.html">SenecaPromisified</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#.create">create</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#.use">use</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#act">act</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#close">close</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#create">create</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#delegate">delegate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#listen">listen</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#pin">pin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#prior">prior</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#ready">ready</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SenecaPromisified.html#use">use</a></span></li>
 </nav>
 
 <div id="main">
@@ -43,7 +44,7 @@
 /**
  * This just wraps over the object which is created when you call `make`.
  *
- * The `fields$`, `is$`, `clone$`, `data$`, `canon$`, `native$` methods all
+ * The `fields$`, `is$`, `clone$`, `canon$`, `native$` methods all
  * work the exact same way as the original seneca entity.
  */
 class SenecaEntityWrapper {
@@ -102,9 +103,19 @@ class SenecaEntityWrapper {
 		return new Promise((resolve, reject) => {
 			const onComplete = (err, ent) => {
 				if(err) return reject(err);
-				const wrapped = new SenecaEntityWrapper(ent);
-				wrapped._fromEntToWrapper();
-				resolve(wrapped);
+				if(Array.isArray(ent)){
+					const ents = ent;
+					const wrappedEnts = ent.map((ent)=>{
+						const wrapped = new SenecaEntityWrapper(ent);
+						wrapped._fromEntToWrapper();
+						return wrapped;
+					});
+					return resolve(wrappedEnts);
+				}else{
+					const wrapped = new SenecaEntityWrapper(ent);
+					wrapped._fromEntToWrapper();
+					return resolve(wrapped);
+				}
 			};
 
 			if(opt !== undefined) {
@@ -177,7 +188,40 @@ class SenecaEntityWrapper {
 	remove$(query) {
 		return this._callWithOpt(query, 'remove$');
 	}
-	
+
+	/**
+	 * Setter or getter depending on whether an object is specified as a parameter.
+	 * If the method is called with an object as the specified parameter it will
+	 * return the `SenecaEntityWrapper` instance(i.e., return itself). Otherwise,
+	 * it will behave like the seneca entity object and return the storable data
+	 * within the entity.
+	 *
+	 * @param {Object} setProperties - If specified will set all of the object's
+	 * iterable properties to the wrapper.
+	 * @returns {Object|SenecaEntityWrapper}
+	 * @example
+	 * var name = seneca
+	 *   .make('user')
+	 *   .data$({ name: 'foobar' })
+	 *   .name;
+	 *
+	 * console.log(name); // => 'foobar'
+	 *
+	 * var data = seneca
+	 *   .make('user', { name: 'foobar })
+	 *   .data$();
+	 *
+	 * console.log(data); // => { name: 'foobar' }
+	 */
+	data$(setProperties) {
+		if(typeof setProperties === 'object' &amp;&amp; setProperties !== null) {
+			this._entity.data$(setProperties);
+			this._fromEntToWrapper();
+			return this;
+		}
+		
+		return this._entity.data$();
+	}
 }
 
 const inheritsSymbolics = [
@@ -185,21 +229,21 @@ const inheritsSymbolics = [
 	'is',
 	'canon',
 	'native',
-	'data',
 	'clone'
 ];
 
 inheritsSymbolics.forEach((key) => {
 	const symbolicKey = key + '$';
 	SenecaEntityWrapper.prototype[symbolicKey] = function() {
-		this._entity[symbolicKey].apply(this._entity, arguments);
+		return this._entity[symbolicKey].apply(this._entity, arguments);
 	};
 });
 
-
 const make = function (...args) {
 	const entity = this._seneca.make.apply(this._entity, args);
-	return new SenecaEntityWrapper(entity);
+	const wrapper = new SenecaEntityWrapper(entity);
+	wrapper._fromEntToWrapper();
+	return wrapper;
 };
 
 // Need to patch the item.
@@ -222,7 +266,7 @@ module.exports.SenecaEntityWrapper = SenecaEntityWrapper;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Apr 09 2016 20:10:27 GMT-0400 (EDT) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 01 2018 18:20:26 GMT-0400 (EDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
