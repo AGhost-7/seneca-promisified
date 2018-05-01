@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified-entity",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "description": "Promise wrapper for the senecajs entity module.",
   "main": "index.js",
   "scripts": {
