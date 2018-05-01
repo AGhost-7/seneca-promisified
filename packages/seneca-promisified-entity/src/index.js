@@ -62,9 +62,19 @@ class SenecaEntityWrapper {
 		return new Promise((resolve, reject) => {
 			const onComplete = (err, ent) => {
 				if(err) return reject(err);
-				const wrapped = new SenecaEntityWrapper(ent);
-				wrapped._fromEntToWrapper();
-				resolve(wrapped);
+				if(Array.isArray(ent)){
+					const ents = ent;
+					const wrappedEnts = ent.map((ent)=>{
+						const wrapped = new SenecaEntityWrapper(ent);
+						wrapped._fromEntToWrapper();
+						return wrapped;
+					});
+					return resolve(wrappedEnts);
+				}else{
+					const wrapped = new SenecaEntityWrapper(ent);
+					wrapped._fromEntToWrapper();
+					return resolve(wrapped);
+				}
 			};
 
 			if(opt !== undefined) {

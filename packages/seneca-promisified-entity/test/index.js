@@ -131,7 +131,7 @@ describe('entity', () => {
 				cmd: 'list',
 				name: 'parrot'
 			}, (args) => {
-				return args.q;
+				return [args.q];
 			});
 		});
 
@@ -139,7 +139,9 @@ describe('entity', () => {
 			return seneca
 				.make('parrot')
 				.list$({ name: 'foobar' })
-				.then((ent) => {
+				.then((ents) => {
+					assert(Array.isArray(ents), 'should be an array: ' + JSON.stringify(ents, false, 2));
+					const ent = ents[0];
 					assert.equal(ent.name, 'foobar');
 				});
 		});
