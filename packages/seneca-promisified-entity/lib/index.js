@@ -102,9 +102,19 @@ var SenecaEntityWrapper = function () {
 			return new _anyPromise2.default(function (resolve, reject) {
 				var onComplete = function onComplete(err, ent) {
 					if (err) return reject(err);
-					var wrapped = new SenecaEntityWrapper(ent);
-					wrapped._fromEntToWrapper();
-					resolve(wrapped);
+					if (Array.isArray(ent)) {
+						var ents = ent;
+						var wrappedEnts = ent.map(function (ent) {
+							var wrapped = new SenecaEntityWrapper(ent);
+							wrapped._fromEntToWrapper();
+							return wrapped;
+						});
+						return resolve(wrappedEnts);
+					} else {
+						var wrapped = new SenecaEntityWrapper(ent);
+						wrapped._fromEntToWrapper();
+						return resolve(wrapped);
+					}
 				};
 
 				if (opt !== undefined) {
