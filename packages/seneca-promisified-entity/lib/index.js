@@ -255,7 +255,7 @@ var make = function make() {
 		args[_key] = arguments[_key];
 	}
 
-	var entity = this._seneca.make.apply(this._entity, args);
+	var entity = this._seneca.make.apply(this._seneca, args);
 	var wrapper = new SenecaEntityWrapper(entity);
 	wrapper._fromEntToWrapper();
 	return wrapper;

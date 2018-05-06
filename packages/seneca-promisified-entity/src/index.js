@@ -199,7 +199,7 @@ inheritsSymbolics.forEach((key) => {
 });
 
 const make = function (...args) {
-	const entity = this._seneca.make.apply(this._entity, args);
+	const entity = this._seneca.make.apply(this._seneca, args);
 	const wrapper = new SenecaEntityWrapper(entity);
 	wrapper._fromEntToWrapper();
 	return wrapper;

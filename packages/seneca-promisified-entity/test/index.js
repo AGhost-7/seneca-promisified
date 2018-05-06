@@ -201,4 +201,66 @@ describe('entity', () => {
 		});
 	});
 
+	describe('delegate', () => {
+
+		let lastArgs, delegated;
+		before(() => {
+			const handler = (args) => {
+				lastArgs = args;
+				return args.cmd === 'save' ? args.ent : [];
+			};
+
+			seneca.add({
+				role: 'entity',
+				name: 'delegate',
+				cmd: 'save'
+			}, handler);
+			seneca.add({
+				role: 'entity',
+				name: 'delegate',
+				cmd: 'list'
+			}, handler);
+
+			delegated = seneca.delegate({
+				a$: 1
+			});
+		});
+
+		it('works with legacy', (done) => {
+			cbSeneca
+				.delegate({
+					a$: 200
+				})
+				.make('delegate')
+				.save$({}, function(err, saved) {
+					if(err) return done(err);
+					assert.equal(lastArgs.a$, 200);
+					assert.notEqual(cbSeneca.fixedargs.a$, 200);
+					assert.notEqual(seneca._seneca.fixedargs.a$, 200);
+					done();
+				});
+		});
+
+		it('should have the fixed args', () => {
+			assert.equal(delegated._seneca.fixedargs.a$, 1);
+		});
+
+		it('save', () => {
+			return delegated.make('delegate').save$({}).then((saved) => {
+				assert.equal(lastArgs.a$, 1);
+			});
+		});
+
+		it.skip('list', () => {
+			return delegated
+				.delegate({ a$: 50 })
+				.make('delegate')
+				.list$({})
+				.then((result) => {
+					assert.equal(lastArgs.cmd, 'list');
+					assert.equal(lastArgs.a$, 50);
+				});
+		});
+	});
+
 });
