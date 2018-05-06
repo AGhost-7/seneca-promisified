@@ -12,9 +12,7 @@ class SenecaEntityWrapper {
 	 * `seneca.make$` method.
 	 */
 	constructor(entity) {
-		Object.defineProperty(this, '_entity', {
-			value: entity
-		});
+		this._entity = entity;
 	}
 
 	/** @private */

@@ -26,7 +26,7 @@ describe('seneca-promisified-core', () => {
 			oldSeneca.add({
 				name: 'foobar',
 				role: 'entity'
-			}, function (args, done) { done(null, 1); });
+			}, function (args, done) { done(null, { foo: 'bar'}); });
 			seneca.add({ name: 'counter', role: 'entity' }, _ => R.objOf('value', 1));
 			seneca.add({ cmd: 'ping' }, _ => R.objOf('value', 'pong'));
 		});
@@ -104,6 +104,15 @@ describe('seneca-promisified-core', () => {
 		});
 	});
 
+	it('chains delegates', () => {
+		return seneca
+			.delegate({ role: 'entity' })
+			.delegate({ name: 'foobar' })
+			.act({ role: 'entity' })
+			.then((res) => {
+				assert.equal(res.foo, 'bar');
+			});
+	});
 
 });
 

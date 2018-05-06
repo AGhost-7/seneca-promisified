@@ -251,14 +251,16 @@ describe('entity', () => {
 			});
 		});
 
-		it.skip('list', () => {
+		it('list', () => {
 			return delegated
-				.delegate({ a$: 50 })
+				.delegate({ b$: 50 })
 				.make('delegate')
 				.list$({})
 				.then((result) => {
 					assert.equal(lastArgs.cmd, 'list');
-					assert.equal(lastArgs.a$, 50);
+					assert.equal(lastArgs.b$, 50);
+					assert.equal(lastArgs.a$, 1);
+					assert.deepEqual(result, []);
 				});
 		});
 	});
