@@ -1,9 +1,9 @@
 /* jshint esversion: 6 */
 
-import senecaModule from 'seneca';
-import SenecaPromisified from '../index';
-import assert from 'assert';
-import R from 'ramda';
+const senecaModule = require('seneca');
+const SenecaPromisified = require('../index');
+const assert = require('assert');
+const R = require('ramda');
 
 const oldSeneca = senecaModule({
 	log: {

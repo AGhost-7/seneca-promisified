@@ -3,4 +3,4 @@ node_js:
   - 6
   - 8
   - 10
-before_script: npm run bootstrap && npm run build
+before_script: npm run bootstrap
