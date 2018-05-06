@@ -1,7 +1,7 @@
-import patchMake from '../index';
-import SenecaPromisified from 'seneca-promisified-core';
-import senecaModule from 'seneca';
-import assert from 'assert';
+const patchMake = require('../index');
+const SenecaPromisified = require('seneca-promisified-core');
+const senecaModule = require('seneca');
+const assert = require('assert');
 
 const cbSeneca = senecaModule({ log: 'silent' });
 

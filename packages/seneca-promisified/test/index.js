@@ -1,6 +1,6 @@
-import senecaModule from 'seneca';
-import SenecaPromisified from '../index';
-import assert from 'assert';
+const senecaModule = require('seneca');
+const SenecaPromisified = require('../index');
+const assert = require('assert');
 
 const cbSeneca = senecaModule({ log: 'silent' });
 cbSeneca.use('entity');
