@@ -90,6 +90,13 @@ describe('entity', () => {
 			seneca.add({
 				role: 'entity',
 				cmd: 'load',
+				name: 'empty',
+			}, (args) => {
+				return Promise.resolve(null);
+			});
+			seneca.add({
+				role: 'entity',
+				cmd: 'load',
 				name: 'parrot'
 			}, (args) => args.q);
 		});
@@ -120,6 +127,15 @@ describe('entity', () => {
 				.load$()
 				.then((loaded) => {
 					assert.equal(loaded.id, 'foobar');
+				});
+		});
+
+		it('empty result', () => {
+			return seneca
+				.make('empty')
+				.load$('foobar')
+				.then((ent) => {
+					assert.strictEqual(ent, null);
 				});
 		});
 	});
