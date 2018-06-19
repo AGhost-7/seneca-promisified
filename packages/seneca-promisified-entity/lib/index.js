@@ -68,10 +68,12 @@ class SenecaEntityWrapper {
 						return wrapped;
 					});
 					return resolve(wrappedEnts);
-				}else{
+				}else if (ent){
 					const wrapped = new SenecaEntityWrapper(ent);
 					wrapped._fromEntToWrapper();
 					return resolve(wrapped);
+				} else {
+					return resolve(ent);
 				}
 			};
 
