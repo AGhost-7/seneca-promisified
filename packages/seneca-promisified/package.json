@@ -1,6 +1,6 @@
 {
   "name": "seneca-promisified",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "description": "Metapackage containing all of the seneca-promisified wrappers.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "seneca-promisified-core": "^0.6.12",
-    "seneca-promisified-entity": "^0.6.12"
+    "seneca-promisified-entity": "^0.6.13"
   },
   "author": "Jonathan Boudreau <jonathan.boudreau.92@gmail.com>",
   "license": "MIT",
