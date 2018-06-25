@@ -6,9 +6,12 @@
   "main": "index.js",
   "scripts": {
     "publish": "lerna publish",
-    "test": "mocha --require bluebird-register ./packages/*/test/index.js",
+    "test": "npm run lint && mocha --require bluebird-register ./packages/*/test/index.js",
     "bootstrap": "lerna bootstrap",
-    "docs": "jsdoc -c .jsdoc.json -R readme.md"
+    "docs": "jsdoc -c .jsdoc.json -R readme.md",
+    "format": "prettier --write '**/*.js'",
+    "lint": "prettier --list-different '**/*.js' && eslint '**/*.js'",
+    "fix": "eslint --fix '**/*.js'"
   },
   "dependencies": {
     "any-promise": "^1.1.0",
@@ -35,6 +38,13 @@
   },
   "homepage": "https://github.com/AGhost-7/seneca-promisified#readme",
   "devDependencies": {
-    "mocha": "^5.1.1"
+    "eslint": "^5.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.1.1",
+    "prettier": "^1.13.6"
   }
 }

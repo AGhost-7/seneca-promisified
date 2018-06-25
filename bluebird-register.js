@@ -1,1 +1,1 @@
-require('any-promise/register')('bluebird');
+require('any-promise/register')('bluebird')

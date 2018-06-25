@@ -1,118 +1,122 @@
 /* jshint esversion: 6 */
 
-const senecaModule = require('seneca');
-const SenecaPromisified = require('../index');
-const assert = require('assert');
-const R = require('ramda');
+const senecaModule = require('seneca')
+const SenecaPromisified = require('../index')
+const assert = require('assert')
+const R = require('ramda')
 
 const oldSeneca = senecaModule({
-	log: {
-		map: [
-			{
-				plugin: 'all',
-				handler: () => {
-				}
-			}
-		]
-	}
-});
+  log: {
+    map: [
+      {
+        plugin: 'all',
+        handler: () => {}
+      }
+    ]
+  }
+})
 
-const seneca = new SenecaPromisified(oldSeneca);
+const seneca = new SenecaPromisified(oldSeneca)
 
 describe('seneca-promisified-core', () => {
+  before(() => {
+    return seneca.ready().then(() => {
+      oldSeneca.add(
+        {
+          name: 'foobar',
+          role: 'entity'
+        },
+        function(args, done) {
+          done(null, { foo: 'bar' })
+        }
+      )
+      seneca.add({ name: 'counter', role: 'entity' }, _ => R.objOf('value', 1))
+      seneca.add({ cmd: 'ping' }, _ => R.objOf('value', 'pong'))
+    })
+  })
 
-	before(() => {
-		return seneca.ready().then(() => {
-			oldSeneca.add({
-				name: 'foobar',
-				role: 'entity'
-			}, function (args, done) { done(null, { foo: 'bar'}); });
-			seneca.add({ name: 'counter', role: 'entity' }, _ => R.objOf('value', 1));
-			seneca.add({ cmd: 'ping' }, _ => R.objOf('value', 'pong'));
-		});
-	});
+  describe('act', () => {
+    it('simple form', () => {
+      return seneca.act({ name: 'counter', role: 'entity' }).then(counter => {
+        assert.equal(counter.value, 1)
+      })
+    })
 
-	describe('act', () => {
+    it('wierd form', () => {
+      seneca.add(
+        {
+          a: 1,
+          b: 2
+        },
+        args => {
+          return {
+            value: true
+          }
+        }
+      )
 
-		it('simple form', () => {
-			return seneca
-					.act({ name: 'counter', role: 'entity' })
-					.then((counter) => {
-						assert.equal(counter.value, 1);
-					});
-		});
+      return seneca.act('a:1', { b: 2 }).then(({ value }) => {
+        assert.ok(value)
+      })
+    })
 
-		it('wierd form', () => {
-			seneca.add({
-				a: 1, b: 2
-			}, (args) => {
-				return {
-					value: true
-				};
-			});
+    it('nested', () => {
+      return seneca
+        .act({ a: 1, b: 2, x: 10 })
+        .then(res => {
+          assert.ok(res.value)
+          return seneca.act({ a: 1, b: 2, y: 10 })
+        })
+        .then(res => {
+          assert.ok(res.value)
+        })
+    })
+  })
 
-			return seneca
-				.act('a:1', { b: 2 })
-				.then(({ value }) => {
-					assert.ok(value);
-				});
-		});
+  it('use', () => {
+    seneca.use(seneca => {
+      seneca.add(
+        {
+          cmd: 'my-plugin'
+        },
+        function(args) {
+          return this.act({
+            cmd: 'ping'
+          })
+        }
+      )
+    })
 
-		it('nested', () => {
-			return seneca.act({ a: 1, b: 2, x: 10 })
-				.then((res) => {
-					assert.ok(res.value);
-					return seneca.act({ a: 1, b: 2, y: 10 });
-				})
-				.then((res) => {
-					assert.ok(res.value);
-				});
-		});
-	});
+    return seneca.act({ cmd: 'my-plugin' }).then(res => {
+      assert.equal(res.value, 'pong')
+    })
+  })
 
-	it('use', () => {
-		seneca.use((seneca) => {
-			seneca.add({
-				cmd: 'my-plugin'
-			}, function(args) {
-				return this.act({
-					cmd: 'ping'
-				});
-			});
-		});
+  it('pin', () => {
+    const pinned = seneca.pin({ role: 'entity', name: '*' })
+    return pinned.counter({}).then(res => {
+      assert.equal(res.value, 1)
+    })
+  })
 
-		return seneca
-			.act({ cmd: 'my-plugin' })
-			.then((res) => {
-				assert.equal(res.value, 'pong');
-			});
-	});
+  it('delegates', () => {
+    const del = seneca.delegate({ role: 'entity' })
+    return del
+      .act({
+        name: 'counter'
+      })
+      .then(({ value }) => {
+        assert.equal(value, 1)
+      })
+  })
 
-	it('pin', () => {
-		const pinned = seneca.pin({ role: 'entity', name: '*' });
-		return pinned.counter({}).then((res) => {
-			assert.equal(res.value, 1);
-		});
-	});
-
-	it('delegates', () => {
-		const del = seneca.delegate({ role: 'entity' });
-		return del.act({
-			name: 'counter'
-		}).then(({ value }) => {
-			assert.equal(value, 1);
-		});
-	});
-
-	it('chains delegates', () => {
-		return seneca
-			.delegate({ role: 'entity' })
-			.delegate({ name: 'foobar' })
-			.act({ role: 'entity' })
-			.then((res) => {
-				assert.equal(res.foo, 'bar');
-			});
-	});
-
-});
-
+  it('chains delegates', () => {
+    return seneca
+      .delegate({ role: 'entity' })
+      .delegate({ name: 'foobar' })
+      .act({ role: 'entity' })
+      .then(res => {
+        assert.equal(res.foo, 'bar')
+      })
+  })
+})
